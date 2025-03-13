@@ -1,5 +1,6 @@
 var userModel = require('../model/userModel');
 var nodemailer = require('nodemailer');
+require('dotenv').config();
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
