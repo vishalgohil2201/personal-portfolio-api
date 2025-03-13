@@ -4,20 +4,20 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'computerwork424@gmail.com',
-        pass: 'mvsb pjli pijk rbqm'
+        user: `${process.env.EMAIL_NAME}`,
+        pass: `${process.env.APP_PASS}`
     }
 });
 
 exports.touchUser = async (req, res) => {
     try {
-        let { name, email, mobile_number, message } = req.body;
+        let { fname, name, email, mobile_number, message } = req.body;
 
         var mailOptions = {
-            from: 'computerwork424@gmail.com',
-            to: 'computerwork424@gmail.com',
-            subject: name,
-            text: 'Name: ' + name + '\n' +
+            from: `${process.env.EMAIL_NAME}`,
+            to: `${process.env.EMAIL_NAME}`,
+            subject: name && fname ? fname + ' ' +name : name,
+            text: 'Name: ' + name && fname ? fname + ' ' +name : name + '\n' +
                 'Email: ' + email + '\n' +
                 'Phone-Number: ' + mobile_number + '\n' +
                 'Message: ' + message,
@@ -31,17 +31,17 @@ exports.touchUser = async (req, res) => {
             }
         });
 
-        let data = await userModel.create({ name, email, mobile_number, message });
+        let data = await userModel.create({ name: name && fname ? fname + ' ' +name : name, email, mobile_number, message });
         res.status(200).json({
             status: "success",
             message: "successful submitted..!",
             data
-        })
+        });
     }
     catch (error) {
         res.status(200).json({
             error
-        })
+        });
     }
 }
 
@@ -49,14 +49,14 @@ exports.allUser = async (req, res) => {
     try {
         let all = await userModel.find();
         res.status(200).json({
-            status:"success",
-            message:"all users",
+            status: "success",
+            message: "all users",
             all
-        })
+        });
     }
     catch (error) {
         res.status(200).json({
             error
-        })
+        });
     }
 }
