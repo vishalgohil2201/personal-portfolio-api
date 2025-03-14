@@ -69,7 +69,7 @@ exports.touchUser = async (req, res) => {
     </p><p>Your Team</p>`;
     try {
         await sendEmail(`${process.env.EMAIL_NAME}`, subject, text, html);
-        await userModel.create({ name: !name ? firstName + ' ' + lastName : name, email, mobile_number: phoneNumber, message });
+        // await userModel.create({ name: !name ? firstName + ' ' + lastName : name, email, mobile_number: phoneNumber, message });
         return res.status(200).json({ message: "Your details sent successfully" });
 
     } catch (error) {
